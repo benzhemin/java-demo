@@ -25,7 +25,7 @@ class Data {
     }
 
     public synchronized String consume() {
-        while (dataList.size() == 0) {
+        while (dataList.isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException e) {
