@@ -1,6 +1,8 @@
 package thread;
 
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.concurrent.Semaphore;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
+@Slf4j
 class Printer extends Thread{
     Runnable invoke;
 
@@ -26,7 +29,7 @@ class Printer extends Thread{
             this.countDown -= 1;
 
         } catch (Exception e) {
-            System.out.println(e);
+            log.error(e.getMessage());
         }
     }
 
@@ -45,8 +48,6 @@ class Scheduler {
         // initialize semaphore
         this.semaphoreList = IntStream.range(0, threadCount)
                 .mapToObj(index -> new Semaphore(0, true)).toList();
-
-
 
         IntStream.range(0, threadCount).forEach(index -> {
             Printer printer = new Printer(index, 20, () -> {
